@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de liens Tally pré-remplis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 2px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 6px;
+        }
+        
+        input[type="text"], select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        select {
+            cursor: pointer;
+            background: white;
+        }
+        
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: end;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .btn-add {
+            width: 100%;
+            background: #10b981;
+            color: white;
+            margin-top: 10px;
+        }
+        
+        .btn-add:hover {
+            background: #059669;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-group .btn {
+            flex: 1;
+        }
+        
+        .result-box {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .result-box.show {
+            display: block;
+        }
+        
+        .result-url {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 13px;
+            color: #333;
+            margin: 15px 0;
+            border: 1px solid #d0d0d0;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-buttons .btn {
+            flex: 1;
+        }
+        
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        .field-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .field-item select,
+        .field-item input {
+            flex: 1;
+        }
+        
+        .btn-remove {
+            padding: 12px 20px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        
+        .btn-remove:hover {
+            background: #dc2626;
+        }
+        
+        #customUrlInput {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔗 Générateur de liens Tally</h1>
+            <p>Créez des liens pré-remplis pour vos formulaires Tally en quelques clics</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <div class="section-title">Sélection du formulaire</div>
+                <div class="form-group">
+                    <label>Choisir le formulaire</label>
+                    <select id="formSelect" onchange="handleFormChange()">
+                        <option value="">-- Sélectionner un formulaire --</option>
+                        <option value="https://tally.so/r/VLjzK6">Formulaire pour recrutement</option>
+                        <option value="https://tally.so/forms/ZjoVMv">Formulaire pour employé déjà en poste</option>
+                        <option value="https://tally.so/r/5B4X5b">Formulaire pour établissement du contrat d'apprentissage</option>
+                        <option value="custom">Autre (URL personnalisée)</option>
+                    </select>
+                </div>
+                <div id="customUrlInput">
+                    <label>URL personnalisée</label>
+                    <input type="text" id="customUrl" placeholder="https://tally.so/r/votre-form-id">
+                </div>
+            </div>
+            
+            <div class="section" id="fieldsSection" style="display: none;">
+                <div class="section-title">Paramètres à pré-remplir</div>
+                <div id="fieldsContainer"></div>
+                <button class="btn btn-add" onclick="addField()">+ Ajouter un paramètre</button>
+            </div>
+            
+            <div class="btn-group" id="actionButtons" style="display: none;">
+                <button class="btn btn-primary" onclick="generateUrl()">🚀 Générer le lien</button>
+                <button class="btn btn-secondary" onclick="resetForm()">🔄 Réinitialiser</button>
+            </div>
+            
+            <div class="result-box" id="resultBox">
+                <div class="section-title">Lien généré</div>
+                <div class="result-url" id="resultUrl"></div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="copyUrl()">📋 Copier le lien</button>
+                    <button class="btn btn-secondary" onclick="openUrl()">🔗 Ouvrir le formulaire</button>
+                </div>
+                <div class="success-message" id="successMessage">✓ Lien copié dans le presse-papiers !</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let fieldCount = 0;
+        let currentFormUrl = '';
+        
+        const formFields = {
+            'https://tally.so/r/VLjzK6': [
+                { 
+                    value: 'candidat_identifie', 
+                    label: 'Avez-vous déjà identifié un candidat ?',
+                    type: 'choice',
+                    options: ['Oui', 'Non']
+                },
+                { 
+                    value: 'accompagnement_recrutement', 
+                    label: 'Souhaitez-vous être accompagné dans le recrutement ?',
+                    type: 'choice',
+                    options: ['Oui', 'Non']
+                },
+                { 
+                    value: 'metier_poste', 
+                    label: 'Sur quel métier le poste est-il à pouvoir ?',
+                    type: 'text'
+                },
+                { 
+                    value: 'echeance_recrutement', 
+                    label: 'À quelle échéance souhaitez-vous recruter ?',
+                    type: 'choice',
+                    options: ['Dès que possible', 'Dans les 3 mois', 'Autre']
+                },
+                { 
+                    value: 'raison_sociale', 
+                    label: 'Raison Sociale',
+                    type: 'text'
+                },
+                { 
+                    value: 'nom_commercial', 
+                    label: 'Nom Commercial',
+                    type: 'text'
+                },
+                { 
+                    value: 'secteur_activite', 
+                    label: 'Secteur d\'activité',
+                    type: 'choice',
+                    options: ['Restauration Rapide', 'Restauration Traditionnelle', 'Grande distribution', 'Vente', 'Autre']
+                },
+				{ 
+                    value: 'region', 
+                    label: 'Region de l\'entreprise',
+                    type: 'choice',
+                    options: ['Auvergne-Rhône-Alpes', 'Bourgogne-Franche-Comté', 'Bretagne', 'Centre-Val de Loire', 'Corse', 'Grand Est', 'Guadeloupe', 'Hauts-de-France', 'Île-de-France', 'Martinique', 'Normandie', 'Nouvelle-Aquitaine', 'Occitanie', 'Pays de la Loire', 'Provence-Alpes-Côte d\'Azur', 'Réunion', 'Autre']
+                },
+                { 
+                    value: 'adresse_contrat', 
+                    label: 'Adresse du lieu d\'exécution',
+                    type: 'text'
+                },
+				{ 
+                    value: 'ville_contrat', 
+                    label: 'Ville du lieu d\'exécution',
+                    type: 'text'
+                },
+				{ 
+                    value: 'code_postal_contrat', 
+                    label: 'Code postal du lieu d\'exécution',
+                    type: 'text'
+                },
+                { 
+                    value: 'effectif_salaries', 
+                    label: 'Effectif total des salariés',
+                    type: 'text'
+                },
+				{ 
+                    value: 'telephone_entreprise', 
+                    label: 'Téléphone de l\'entreprise +33600000000',
+                    type: 'text'
+                },
+				{ 
+                    value: 'email_entreprise_entreprise', 
+                    label: 'E-mail de l\'entreprise',
+                    type: 'text'
+                },
+                { 
+                    value: 'nom_contact', 
+                    label: 'Nom de la personne à contacter',
+                    type: 'text'
+                },
+                { 
+                    value: 'prenom_contact', 
+                    label: 'Prénom de la personne à contacter',
+                    type: 'text'
+                },
+                { 
+                    value: 'email_contact', 
+                    label: 'Email du contact',
+                    type: 'text'
+                },
+                { 
+                    value: 'telephone_contact', 
+                    label: 'Téléphone du contact +33600000000',
+                    type: 'text'
+                },
+                { 
+                    value: 'fonction_contact', 
+                    label: 'Fonction',
+                    type: 'text'
+                }
+            ],
+            'https://tally.so/forms/ZjoVMv': [
+                { 
+                    value: 'nom_employe', 
+                    label: 'Nom de l\'employé',
+                    type: 'text'
+                },
+                { 
+                    value: 'prenom_employe', 
+                    label: 'Prénom de l\'employé',
+                    type: 'text'
+                },
+                { 
+                    value: 'email_employe', 
+                    label: 'Email de l\'employé',
+                    type: 'text'
+                },
+                { 
+                    value: 'poste_actuel', 
+                    label: 'Poste actuel',
+                    type: 'text'
+                },
+                { 
+                    value: 'date_embauche', 
+                    label: 'Date d\'embauche',
+                    type: 'text'
+                },
+                { 
+                    value: 'raison_sociale', 
+                    label: 'Raison Sociale',
+                    type: 'text'
+                },
+                { 
+                    value: 'nom_commercial', 
+                    label: 'Nom Commercial',
+                    type: 'text'
+                }
+            ],
+            'https://tally.so/r/5B4X5b': [
+                { 
+                    value: 'nom_apprenti', 
+                    label: 'Nom de l\'apprenti',
+                    type: 'text'
+                },
+                { 
+                    value: 'prenom_apprenti', 
+                    label: 'Prénom de l\'apprenti',
+                    type: 'text'
+                },
+                { 
+                    value: 'date_naissance', 
+                    label: 'Date de naissance',
+                    type: 'text'
+                },
+                { 
+                    value: 'formation', 
+                    label: 'Formation',
+                    type: 'text'
+                },
+                { 
+                    value: 'niveau_formation', 
+                    label: 'Niveau de formation',
+                    type: 'text'
+                },
+                { 
+                    value: 'date_debut_contrat', 
+                    label: 'Date de début du contrat',
+                    type: 'text'
+                },
+                { 
+                    value: 'date_fin_contrat', 
+                    label: 'Date de fin du contrat',
+                    type: 'text'
+                },
+                { 
+                    value: 'raison_sociale', 
+                    label: 'Raison Sociale',
+                    type: 'text'
+                },
+                { 
+                    value: 'nom_maitre_apprentissage', 
+                    label: 'Nom du maître d\'apprentissage',
+                    type: 'text'
+                }
+            ]
+        };
+
+        function handleFormChange() {
+            const select = document.getElementById('formSelect');
+            const customUrlDiv = document.getElementById('customUrlInput');
+            const fieldsSection = document.getElementById('fieldsSection');
+            const actionButtons = document.getElementById('actionButtons');
+            const fieldsContainer = document.getElementById('fieldsContainer');
+            
+            fieldsContainer.innerHTML = '';
+            fieldCount = 0;
+            
+            if (select.value === 'custom') {
+                customUrlDiv.style.display = 'block';
+                fieldsSection.style.display = 'none';
+                actionButtons.style.display = 'none';
+                currentFormUrl = '';
+            } else if (select.value) {
+                customUrlDiv.style.display = 'none';
+                fieldsSection.style.display = 'block';
+                actionButtons.style.display = 'flex';
+                currentFormUrl = select.value;
+                addField();
+                addField();
+            } else {
+                customUrlDiv.style.display = 'none';
+                fieldsSection.style.display = 'none';
+                actionButtons.style.display = 'none';
+                currentFormUrl = '';
+            }
+            
+            document.getElementById('resultBox').classList.remove('show');
+        }
+
+        document.getElementById('customUrl').addEventListener('input', function() {
+            const customUrl = this.value.trim();
+            if (customUrl) {
+                currentFormUrl = customUrl;
+                document.getElementById('fieldsSection').style.display = 'block';
+                document.getElementById('actionButtons').style.display = 'flex';
+                if (fieldCount === 0) {
+                    addField();
+                    addField();
+                }
+            } else {
+                document.getElementById('fieldsSection').style.display = 'none';
+                document.getElementById('actionButtons').style.display = 'none';
+            }
+        });
+
+        function createValueInput(fieldData) {
+            if (fieldData && fieldData.type === 'choice' && fieldData.options) {
+                const select = document.createElement('select');
+                select.setAttribute('data-field-value', '');
+                
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = '-- Choisir une valeur --';
+                select.appendChild(defaultOption);
+                
+                fieldData.options.forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option;
+                    opt.textContent = option;
+                    select.appendChild(opt);
+                });
+                
+                return select;
+            } else {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = 'Valeur à pré-remplir';
+                input.setAttribute('data-field-value', '');
+                return input;
+            }
+        }
+
+        function addField() {
+            fieldCount++;
+            const container = document.getElementById('fieldsContainer');
+            const fieldDiv = document.createElement('div');
+            fieldDiv.className = 'field-item';
+            fieldDiv.id = `field-${fieldCount}`;
+            
+            const selectedForm = document.getElementById('formSelect').value;
+            const isCustom = selectedForm === 'custom' || selectedForm === '';
+            
+            if (isCustom || !formFields[selectedForm]) {
+                fieldDiv.innerHTML = `
+                    <input type="text" placeholder="Nom du Hidden Field" data-field-name>
+                    <input type="text" placeholder="Valeur à pré-remplir" data-field-value>
+                    <button class="btn-remove" onclick="removeField(${fieldCount})">✕</button>
+                `;
+            } else {
+                const questionSelect = document.createElement('select');
+                questionSelect.setAttribute('data-field-name', '');
+                questionSelect.setAttribute('data-field-id', fieldCount);
+                
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = '-- Choisir la question --';
+                questionSelect.appendChild(defaultOption);
+                
+                formFields[selectedForm].forEach(field => {
+                    const opt = document.createElement('option');
+                    opt.value = field.value;
+                    opt.textContent = field.label;
+                    opt.setAttribute('data-field-type', field.type);
+                    if (field.options) {
+                        opt.setAttribute('data-field-options', JSON.stringify(field.options));
+                    }
+                    questionSelect.appendChild(opt);
+                });
+                
+                questionSelect.addEventListener('change', function() {
+                    const selectedOption = this.options[this.selectedIndex];
+                    const fieldType = selectedOption.getAttribute('data-field-type');
+                    const fieldOptions = selectedOption.getAttribute('data-field-options');
+                    
+                    const fieldData = fieldType === 'choice' && fieldOptions ? {
+                        type: 'choice',
+                        options: JSON.parse(fieldOptions)
+                    } : null;
+                    
+                    const oldValueInput = fieldDiv.querySelector('[data-field-value]');
+                    const newValueInput = createValueInput(fieldData);
+                    
+                    if (oldValueInput) {
+                        oldValueInput.replaceWith(newValueInput);
+                    }
+                });
+                
+                fieldDiv.appendChild(questionSelect);
+                fieldDiv.appendChild(createValueInput(null));
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'btn-remove';
+                removeBtn.textContent = '✕';
+                removeBtn.onclick = () => removeField(fieldCount);
+                fieldDiv.appendChild(removeBtn);
+            }
+            
+            container.appendChild(fieldDiv);
+        }
+
+        function removeField(id) {
+            const field = document.getElementById(`field-${id}`);
+            if (field) {
+                field.remove();
+            }
+        }
+
+        function generateUrl() {
+            const baseUrl = currentFormUrl;
+            
+            if (!baseUrl) {
+                alert('⚠️ Veuillez sélectionner un formulaire');
+                return;
+            }
+
+            const fields = document.querySelectorAll('.field-item');
+            const params = [];
+
+            fields.forEach(field => {
+                const nameElement = field.querySelector('[data-field-name]');
+                const valueElement = field.querySelector('[data-field-value]');
+                
+                const name = nameElement.tagName === 'SELECT' ? nameElement.value : nameElement.value.trim();
+                const value = valueElement.tagName === 'SELECT' ? valueElement.value : valueElement.value.trim();
+                
+                if (name && value) {
+                    params.push(`${encodeURIComponent(name)}=${encodeURIComponent(value)}`);
+                }
+            });
+
+            let finalUrl = baseUrl;
+            if (params.length > 0) {
+                finalUrl += '?' + params.join('&');
+            }
+
+            document.getElementById('resultUrl').textContent = finalUrl;
+            document.getElementById('resultBox').classList.add('show');
+            document.getElementById('successMessage').classList.remove('show');
+        }
+
+        function copyUrl() {
+            const url = document.getElementById('resultUrl').textContent;
+            navigator.clipboard.writeText(url).then(() => {
+                const successMsg = document.getElementById('successMessage');
+                successMsg.classList.add('show');
+                setTimeout(() => {
+                    successMsg.classList.remove('show');
+                }, 3000);
+            });
+        }
+
+        function openUrl() {
+            const url = document.getElementById('resultUrl').textContent;
+            window.open(url, '_blank');
+        }
+
+        function resetForm() {
+            document.getElementById('formSelect').value = '';
+            document.getElementById('customUrl').value = '';
+            document.getElementById('customUrlInput').style.display = 'none';
+            document.getElementById('fieldsSection').style.display = 'none';
+            document.getElementById('actionButtons').style.display = 'none';
+            document.getElementById('fieldsContainer').innerHTML = '';
+            document.getElementById('resultBox').classList.remove('show');
+            currentFormUrl = '';
+            fieldCount = 0;
+        }
+    </script>
+</body>
+</html>
