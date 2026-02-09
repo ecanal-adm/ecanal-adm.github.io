@@ -257,7 +257,7 @@
                     <select id="formSelect" onchange="handleFormChange()">
                         <option value="">-- Sélectionner un formulaire --</option>
                         <option value="https://tally.so/r/VLjzK6">Formulaire pour recrutement</option>
-                        <option value="https://tally.so/forms/ZjoVMv">Formulaire pour employé déjà en poste</option>
+                        <option value="https://tally.so/r/ZjoVMv">Formulaire pour employé déjà en poste</option>
                         <option value="https://tally.so/r/5B4X5b">Formulaire pour établissement du contrat d'apprentissage</option>
                         <option value="custom">Autre (URL personnalisée)</option>
                     </select>
@@ -398,87 +398,299 @@
                     type: 'text'
                 }
             ],
-            'https://tally.so/forms/ZjoVMv': [
-                { 
-                    value: 'nom_employe', 
-                    label: 'Nom de l\'employé',
-                    type: 'text'
-                },
-                { 
-                    value: 'prenom_employe', 
-                    label: 'Prénom de l\'employé',
-                    type: 'text'
-                },
-                { 
-                    value: 'email_employe', 
-                    label: 'Email de l\'employé',
-                    type: 'text'
-                },
+            'https://tally.so/r/ZjoVMv': [
                 { 
                     value: 'poste_actuel', 
-                    label: 'Poste actuel',
+                    label: 'Poste actuel du salarié',
                     type: 'text'
                 },
                 { 
-                    value: 'date_embauche', 
-                    label: 'Date d\'embauche',
+                    value: 'contrat_actuel', 
+                    label: 'Quel type de contrat actuellement',
+                    type: 'choice',
+					options: ['CDI', 'CDD']
+                },
+                { 
+                    value: 'heures_salarie', 
+                    label: 'Heures actuelles du salarié',
                     type: 'text'
+                },
+                { 
+                    value: 'futur_metier', 
+                    label: 'Poste visé à terme',
+                    type: 'text'
+                },
+                { 
+                    value: 'echeance_formation', 
+                    label: 'Echéance du début de formation',
+                    type: 'choice',
+					options: ['Dès que possible', 'Dans les 3 mois', 'Autre']
                 },
                 { 
                     value: 'raison_sociale', 
                     label: 'Raison Sociale',
                     type: 'text'
                 },
-                { 
+				{ 
                     value: 'nom_commercial', 
                     label: 'Nom Commercial',
+                    type: 'text'
+                },
+				{ 
+                    value: 'secteur_activite', 
+                    label: 'Secteur d\'activité',
+                    type: 'choice',
+					options: ['Restauration Rapide', 'Restauration Traditionnelle', 'Grande Distribution', 'Vente', 'Autre']
+                },
+				{ 
+                    value: 'region', 
+                    label: 'Région',
+                    type: 'choice',
+					options: ['Auvergne-Rhône-Alpes', 'Bourgogne-Franche-Comté', 'Bretagne', 'Centre-Val de Loire', 'Corse', 'Grand Est', 'Guadeloupe', 'Guyane', 'Hauts-de-France', 'Hauts-de-France', 'Martinique', 'Normandie', 'Nouvelle-Aquitaine', 'Occitanie', 'Pays de la Loire', 'Provence-Alpes-Côte d\'Azur', 'Réunion']
+                },
+				{ 
+                    value: 'adresse_entreprise', 
+                    label: 'Adresse de l\'entreprise',
+                    type: 'text'
+                },
+				{ 
+                    value: 'ville_entreprise', 
+                    label: 'Ville de l\'entreprise',
+                    type: 'text'
+                },
+				{ 
+                    value: 'code_postale_entreprise', 
+                    label: 'Code postale de l\'entreprise',
+                    type: 'text'
+                },
+				{ 
+                    value: 'effectif_salaries', 
+                    label: 'Effectif total des salariés',
+                    type: 'text'
+                },
+				{ 
+                    value: 'telephone_entreprise', 
+                    label: 'Téléphone de l\'entreprise +33600000000',
+                    type: 'text'
+                },
+				{ 
+                    value: 'email_entreprise', 
+                    label: 'E-mail de l\'entreprise',
+                    type: 'text'
+                },
+				{ 
+                    value: 'prenom_contact', 
+                    label: 'Prénom du contact',
+                    type: 'text'
+                },
+				{ 
+                    value: 'nom_contact', 
+                    label: 'Nom du contact',
+                    type: 'text'
+                },
+				{ 
+                    value: 'fonction_contact', 
+                    label: 'Fonction du contact',
+                    type: 'text'
+                },
+				{ 
+                    value: 'telephone_contact', 
+                    label: 'Téléphone du contact +33600000000',
+                    type: 'text'
+                },
+				{ 
+                    value: 'email_contact', 
+                    label: 'E-mail du contact',
+                    type: 'text'
+                },
+                { 
+                    value: 'questions', 
+                    label: 'Question ouverte à poser',
                     type: 'text'
                 }
             ],
             'https://tally.so/r/5B4X5b': [
                 { 
-                    value: 'nom_apprenti', 
-                    label: 'Nom de l\'apprenti',
-                    type: 'text'
-                },
-                { 
-                    value: 'prenom_apprenti', 
-                    label: 'Prénom de l\'apprenti',
-                    type: 'text'
-                },
-                { 
-                    value: 'date_naissance', 
-                    label: 'Date de naissance',
-                    type: 'text'
-                },
-                { 
                     value: 'formation', 
-                    label: 'Formation',
-                    type: 'text'
-                },
-                { 
-                    value: 'niveau_formation', 
-                    label: 'Niveau de formation',
-                    type: 'text'
-                },
-                { 
-                    value: 'date_debut_contrat', 
-                    label: 'Date de début du contrat',
-                    type: 'text'
-                },
-                { 
-                    value: 'date_fin_contrat', 
-                    label: 'Date de fin du contrat',
-                    type: 'text'
+                    label: 'Formation choisie',
+                    type: 'choice',
+					options: ['TP RPMS (Responsable de Petite ou Moyenne Structure)', 'TP RPMS (Responsable de Petite ou Moyenne Structure)', 'TP RPMS (Responsable de Petite ou Moyenne Structure)', 'À déterminer entre TP RPMS et TP AMUM']
                 },
                 { 
                     value: 'raison_sociale', 
-                    label: 'Raison Sociale',
+                    label: 'Raison sociale',
                     type: 'text'
                 },
                 { 
-                    value: 'nom_maitre_apprentissage', 
-                    label: 'Nom du maître d\'apprentissage',
+                    value: 'nom_commercial', 
+                    label: 'Nom commercial',
+                    type: 'text'
+                },
+                { 
+                    value: 'adresse_entreprise', 
+                    label: 'Adresse de l\'entreprise',
+                    type: 'text'
+                },
+                { 
+                    value: 'ville_entreprise', 
+                    label: 'Ville de l\'entreprise',
+                    type: 'text'
+                },
+                { 
+                    value: 'code_postal', 
+                    label: 'Code postal de l\'entreprise',
+                    type: 'text'
+                },
+                { 
+                    value: 'siret', 
+                    label: 'SIRET',
+                    type: 'text'
+                },
+                { 
+                    value: 'ape', 
+                    label: 'APE (NAF)',
+                    type: 'text'
+                },
+                { 
+                    value: 'effectif_salaries', 
+                    label: 'Effectif total salariés',
+                    type: 'text'
+                },
+				{ 
+                    value: 'telephone_entreprise', 
+                    label: 'Téléphone de l\'entreprise +33600000000',
+                    type: 'text'
+                },
+				{ 
+                    value: 'email_entreprise', 
+                    label: 'E-mail de l\'entreprise',
+                    type: 'text'
+                },
+				{ 
+                    value: 'caisse_retraite', 
+                    label: 'Caisse retraite complémentaire',
+                    type: 'text'
+                },
+				{ 
+                    value: 'code_idcc', 
+                    label: 'Code IDCC',
+                    type: 'text'
+                },
+				{ 
+                    value: 'privee_publique', 
+                    label: 'Entreprise privée ou publique',
+                    type: 'choice',
+					options: ['Entreprise Privée', 'Entreprise Publique']
+                },
+				{ 
+                    value: 'prenom_signataire', 
+                    label: 'Prénom du signataire',
+                    type: 'text'
+                },
+				{ 
+                    value: 'nom_signataire', 
+                    label: 'Nom du signataire',
+                    type: 'text'
+                },
+				{ 
+                    value: 'telephone_signataire', 
+                    label: 'Téléphone du signataire +33600000000',
+                    type: 'text'
+                },
+				{ 
+                    value: 'email_signataire', 
+                    label: 'E-mail du signataire',
+                    type: 'text'
+                },
+				{ 
+                    value: 'fonction_signataire', 
+                    label: 'Fonction du signataire',
+                    type: 'text'
+                },
+				{ 
+                    value: 'opco_financement', 
+                    label: 'OPCO ou financement',
+                    type: 'choice',
+					options: ['OPCO Atlas', 'OPCO Akto', 'OPCO AFDAS', 'OPCO EP', 'OPCO 21', 'OPCO Mobilités', 'OPCOMMERCE', 'OPCO Uniformation', 'OCAPIAT', 'OPCO Santé', 'OPCO Constructys', 'CNFPT', 'Financement Entreprise'] 
+                },
+				{ 
+                    value: 'opco_adresse', 
+                    label: 'Adresse pour l\'OPCO',
+                    type: 'text'
+                },
+				{ 
+                    value: 'opco_ville', 
+                    label: 'Ville pour l\'OPCO',
+                    type: 'text'
+                },
+				{ 
+                    value: 'opco_code_postal', 
+                    label: 'Code postal pour l\'OPCO',
+                    type: 'text'
+                },
+				{ 
+                    value: 'opco_comptable', 
+                    label: 'Nom du cabinet comptable pour l\'OPCO',
+                    type: 'text'
+                },
+				{ 
+                    value: 'telephone_comptable', 
+                    label: 'Téléphone du cabinet comptable pour l\'OPCO +33600000000',
+                    type: 'text'
+                },
+				{ 
+                    value: 'prenom_tuteur', 
+                    label: 'Prénom du tuteur',
+                    type: 'text'
+                },
+				{ 
+                    value: 'nom_tuteur', 
+                    label: 'Nom du tuteur',
+                    type: 'text'
+                },
+				{ 
+                    value: 'naissance_tuteur', 
+                    label: 'Date de naissance du tuteur AAAA-MM-JJ',
+                    type: 'text'
+                },
+				{ 
+                    value: 'email_tuteur', 
+                    label: 'E-mail du tuteur',
+                    type: 'text'
+                },
+				{ 
+                    value: 'emploi_tuteur', 
+                    label: 'Emploi du tuteur',
+                    type: 'text'
+                },
+				{ 
+                    value: 'diplome_tuteur', 
+                    label: 'Dernier diplôme ou titre du tuteur',
+                    type: 'text'
+                },
+				{ 
+                    value: 'prenom_salarie', 
+                    label: 'Prénom du salarié',
+                    type: 'text'
+                },
+				{ 
+                    value: 'nom_salarie', 
+                    label: 'Nom du salarié',
+                    type: 'text'
+                },
+				{ 
+                    value: 'email_salarie', 
+                    label: 'E-mail du salarié',
+                    type: 'text'
+                },
+				{ 
+                    value: 'heures_salarie', 
+                    label: 'Heures hebdomadaire du salarié',
+                    type: 'text'
+                },
+				{ 
+                    value: 'remuneration_salarie', 
+                    label: 'Rémunération brute du salarié',
                     type: 'text'
                 }
             ]
